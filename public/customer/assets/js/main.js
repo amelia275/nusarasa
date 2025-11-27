@@ -72,13 +72,14 @@ async function renderHomeMenu(){
   grid.innerHTML = '';
   const res = await fetch('/nusarasa/backend/menu/get_menu.php');
   const j = await res.json();
-  if (!j.ok) return;
-  (j.data.slice(0,4)).forEach(item => {
+  const data = j.data;
+  if (!data) return;
+  data.slice(0,4).forEach(item => {
     const col = document.createElement('div');
     col.className = 'col-md-3';
     col.innerHTML = `
       <div class="card menu-card p-2">
-        <img src="http://localhost/nusarasa/backend/uploads/menu/${item.image}" class="menu-item-img w-100" alt="${item.name}"/>
+        <img src="/nusarasa/backend/uploads/menu/${item.image}" class="menu-item-img w-100" alt="${item.name}"/>
         <div class="p-2">
           <h6 class="mb-1">${item.name}</h6>
           <div class="d-flex justify-content-between align-items-center">
@@ -100,14 +101,15 @@ async function renderMenuGrid(){
   const cat = filter ? filter.value : 'all';
   const res = await fetch('/nusarasa/backend/menu/get_menu.php');
   const j = await res.json();
-  if (!j.ok) return;
-  const items = j.data.filter(i => cat === 'all' ? true : (i.category_name === cat));
+  const data = j.data;
+  if (!data) return;
+  const items = data.filter(i => cat === 'all' ? true : (i.category_name === cat));
   items.forEach(item => {
     const col = document.createElement('div');
     col.className = 'col-md-4';
     col.innerHTML = `
       <div class="card menu-card h-100 p-3">
-        <img src="http://localhost/nusarasa/backend/uploads/menu/${item.image}" class="menu-item-img mb-3" alt="${item.name}"/>
+        <img src="/nusarasa/backend/uploads/menu/${item.image}" class="menu-item-img mb-3" alt="${item.name}"/>
         <div>
           <h5>${item.name}</h5>
           <p class="text-muted small">${item.description || ''}</p>

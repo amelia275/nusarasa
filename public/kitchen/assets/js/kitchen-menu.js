@@ -24,8 +24,9 @@ async function loadCategories() {
 async function loadMenu() {
   try {
     const res = await fetch("/nusarasa/backend/menu/get_menu.php");
-    const data = await res.json();
+    const json = await res.json();
 
+    const data = json.data || [];
     const body = document.getElementById("menuBody");
     body.innerHTML = "";
 
@@ -100,7 +101,8 @@ document.getElementById("formAddMenu").addEventListener("submit", async (e) => {
 async function openEditMenu(id) {
   try {
     const res = await fetch("/nusarasa/backend/menu/get_menu.php?id=" + id);
-    const data = await res.json();
+    const json = await res.json();
+    const data = json.data;
 
     document.getElementById("editMenuId").value = data.menu_id;
     document.getElementById("editName").value = data.name;
@@ -108,7 +110,7 @@ async function openEditMenu(id) {
     document.getElementById("editDesc").value = data.description;
     document.getElementById("editStatus").value = data.status;
 
-    loadCategories(); // refresh categories list
+    await loadCategories();
 
     setTimeout(() => {
       document.getElementById("editCategory").value = data.category_id;
