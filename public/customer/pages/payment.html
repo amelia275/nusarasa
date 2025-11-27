@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pembayaran — NusaRasa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img src="../assets/img/logo-nusarasa.png" alt="NusaRasa Logo" height="37px">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link active" href="tracking.html">Tracking</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- PAYMENT SECTION -->
+<section class="py-5">
+  <div class="container" data-aos="fade-up">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-pepper">Selesaikan Pembayaran Anda</h2>
+      <p class="text-muted">Silakan lakukan pembayaran sesuai metode yang Anda pilih.</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card border-0 shadow-sm p-4 text-center">
+          <h5 class="fw-semibold mb-4 text-pepper" id="paymentTitle">Metode Pembayaran</h5>
+
+          <!-- QRIS Section -->
+          <div id="qrisSection" style="display:none;">
+            <p class="text-muted mb-3">Pindai kode QR berikut menggunakan aplikasi pembayaran pilihan Anda.</p>
+            <img src="../assets/img/qris-placeholder.png" alt="QRIS Code" class="img-fluid rounded shadow-sm mb-3" style="max-width:220px;">
+            <p class="small text-muted mb-0">Atas Nama: <strong>NusaRasa Indonesia</strong></p>
+            <p class="small text-muted">Nominal: <span id="paymentTotalQris" class="fw-bold text-pepper">Rp0</span></p>
+          </div>
+
+          <!-- Tunai Section -->
+          <div id="cashSection" style="display:none;">
+           <p class="text-muted mb-3">
+              Silakan lakukan pembayaran tunai saat pesanan diantar atau diambil.
+            </p>
+            <p class="small text-muted">Total yang harus dibayar: 
+              <span id="paymentTotalcash" class="fw-bold text-pepper">Rp0</span>
+            </p>
+          </div>
+
+
+          <!-- BUTTON -->
+          <div class="mt-4">
+            <button class="btn btn-danger px-4" id="doneBtn">
+              <i class="bi bi-check-circle me-2"></i>Selesai
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-5 bg-dark text-light">
+  <div class="container text-center small text-white-50">
+    © 2025 NusaRasa. All rights reserved.
+  </div>
+</footer>
+
+<script src="../assets/js/payment.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

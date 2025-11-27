@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Kitchen Menu — NusaRasa</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../assets/css/kitchen.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    body { background: #f5f6f8 !important; }
+    .card { border-radius: 12px; }
+  </style>
+</head>
+
+<body>
+  <div class="d-flex">
+    
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="brand">NusaRasa Kitchen</div>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="orders.html">Orders</a></li>
+        <li><a href="menu.html" class="active">Menu</a></li>
+        <li><a href="stock.html">Stock</a></li>
+        <li><a href="sales.html">Sales</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main p-4">
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Manajemen Menu</h3>
+        <button class="btn btn-danger" id="btnAddMenu">+ Tambah Menu</button>
+      </div>
+
+      <div class="card p-3">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle" id="menuTable">
+            <thead class="table-light">
+              <tr>
+                <th>Gambar</th>
+                <th>Nama</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Status</th>
+                <th style="width:120px;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="menuBody">
+              <!-- Render dari JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL TAMBAH MENU -->
+  <div class="modal fade" id="modalAddMenu" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        <h4 class="mb-3">Tambah Menu Baru</h4>
+
+        <form id="formAddMenu" enctype="multipart/form-data">
+
+          <label class="form-label">Nama Menu</label>
+          <input type="text" class="form-control mb-2" name="name" required>
+
+          <label class="form-label">Harga</label>
+          <input type="number" class="form-control mb-2" name="price" required>
+
+          <label class="form-label">Kategori</label>
+          <select class="form-control mb-2" name="category_id" id="addCategory"></select>
+
+          <label class="form-label">Deskripsi</label>
+          <textarea class="form-control mb-2" name="description"></textarea>
+
+          <label class="form-label">Gambar</label>
+          <input type="file" class="form-control mb-2" name="image" accept="image/*">
+
+          <label class="form-label">Status</label>
+          <select class="form-control mb-3" name="status">
+            <option value="available">Tersedia</option>
+            <option value="unavailable">Tidak Tersedia</option>
+          </select>
+
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-secondary" onclick="closeAddMenu()">Batal</button>
+            <button type="submit" class="btn btn-danger">Simpan</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL EDIT MENU -->
+  <div class="modal fade" id="modalEditMenu" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        <h4 class="mb-3">Edit Menu</h4>
+
+        <form id="formEditMenu" enctype="multipart/form-data">
+
+          <input type="hidden" name="menu_id" id="editMenuId">
+
+          <label class="form-label">Nama Menu</label>
+          <input type="text" class="form-control mb-2" name="name" id="editName" required>
+
+          <label class="form-label">Harga</label>
+          <input type="number" class="form-control mb-2" name="price" id="editPrice" required>
+
+          <label class="form-label">Kategori</label>
+          <select class="form-control mb-2" name="category_id" id="editCategory"></select>
+
+          <label class="form-label">Deskripsi</label>
+          <textarea class="form-control mb-2" name="description" id="editDesc"></textarea>
+
+          <label class="form-label">Gambar (opsional)</label>
+          <input type="file" class="form-control mb-2" name="image" accept="image/*">
+
+          <label class="form-label">Status</label>
+          <select class="form-control mb-3" name="status" id="editStatus">
+            <option value="available">Tersedia</option>
+            <option value="unavailable">Tidak Tersedia</option>
+          </select>
+
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-secondary" onclick="closeEditMenu()">Batal</button>
+            <button type="submit" class="btn btn-danger">Simpan Perubahan</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/kitchen.js"></script>
+  <script src="../assets/js/kitchen-menu.js"></script>
+
+</body>
+</html>
