@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 15 Nov 2025 pada 00.12
+-- Waktu pembuatan: 27 Nov 2025 pada 02.36
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `nusarasa_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `carts`
+--
+
+CREATE TABLE `carts` (
+  `cart_id` int(11) NOT NULL,
+  `session_id` varchar(128) NOT NULL,
+  `menu_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `note` text DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -132,7 +147,7 @@ INSERT INTO `inventory` (`inventory_id`, `item_name`, `quantity`, `unit_purchase
 (51, 'Pisang Raja', 0, 'pcs', NULL, 120, NULL, '2025-11-14 15:03:49'),
 (52, 'Melon', 0, 'pcs', NULL, 1000, NULL, '2025-11-14 15:03:49'),
 (53, 'Nangka', 0, 'pcs', NULL, 500, NULL, '2025-11-14 15:03:49'),
-(54, 'Alpukat', 0, 'pcs', NULL, 300, NULL, '2025-11-14 15:03:49'),
+(54, 'Alpukat', 50, 'pcs', NULL, 300, NULL, '2025-11-23 07:06:10'),
 (55, 'Kelapa Muda', 0, 'pcs', NULL, NULL, 1, '2025-11-14 15:03:49'),
 (56, 'Teh Hitam Bubuk', 0, 'pcs', NULL, 100, NULL, '2025-11-14 15:03:49'),
 (57, 'Kopi Bubuk Arabica', 0, 'pcs', NULL, 200, NULL, '2025-11-14 15:03:49'),
@@ -184,42 +199,42 @@ CREATE TABLE `menu_items` (
 --
 
 INSERT INTO `menu_items` (`menu_id`, `name`, `category_id`, `description`, `price`, `image`, `status`) VALUES
-(1, 'Rawon Daging', 1, 'Sup daging sapi khas Jawa Timur dengan kuah hitam gurih dari kluwek.', 55000.00, 'assets/img/rawon.jpg', 'available'),
-(2, 'Soto Madura', 1, 'Kuah bening gurih dengan potongan daging sapi, koya, dan sambal khas Madura.', 48000.00, 'assets/img/soto.jpg', 'available'),
-(3, 'Tempe Goreng', 2, 'Tempe goreng renyah dengan bumbu ketumbar dan bawang putih pilihan.', 15000.00, 'assets/img/tempe.jpg', 'available'),
-(4, 'Es Teh Manis', 3, 'Teh hitam dingin dengan aroma melati yang menenangkan.', 10000.00, 'assets/img/teh.jpg', 'available'),
-(5, 'Coto Makassar', 1, 'Sup daging sapi kental dengan rempah khas Makassar dan ketupat lembut.', 52000.00, 'assets/img/coto.jpg', 'available'),
-(6, 'Es Pisang Ijo', 4, 'Pisang dibalut adonan hijau lembut, disajikan dengan sirup merah dan es serut segar.', 28000.00, 'assets/img/pisjo.jpg', 'available'),
-(7, 'Ayam Taliwang', 1, 'Ayam bakar khas lombok dengan bumbu pedas dan gurih.', 89000.00, 'assets/img/taliwang.jpg', 'available'),
-(8, 'Nasi Goreng Kampung', 1, 'Nasi goreng dengan menggunakan bahan sederhana sehingga mengeluarkan cita rasa kampoeng.', 40000.00, 'assets/img/nasgor.jpg', 'available'),
-(9, 'Tempe Mendoan', 2, 'Tempe yang dipotong tipis dan digoreng setengah matang dengan dibaluri tepung.', 25000.00, 'assets/img/mendoan.png', 'available'),
-(10, 'Tahu Tempe Bacem', 2, 'Tahu dan tempe yang diolah melalui proses perendaman dengan bumbu manis dan gurih.', 30000.00, 'assets/img/tahu tempe bacem.jpg', 'available'),
-(11, 'Rendang', 1, 'Hidangan daging sapi khas Sumatra Barat yang dimasak lama hingga dagingnya empuk dan bumbunya meresap.', 100000.00, 'assets/img/rendang.jpg', 'available'),
-(12, 'Es Campur', 4, 'Hidangan penutup manis dan menyegarkan, terbuat dari es serut yang dicampur berbagai isian, lalu disiram sirup dan susu kental manis.', 20000.00, 'assets/img/es campur.jpeg', 'available'),
-(13, 'Bebek Bumbu Hitam', 1, 'Hidangan bebek dari madura yang memakai bumbu hitam khas madura.', 90000.00, 'assets/img/bebek hitam.jpeg', 'available'),
-(14, 'Sate Kambing', 1, 'Daging kambing yang ditusuk dan dibakar diatas arang sehingga memiliki rasa smoky.', 40000.00, 'assets/img/Satekambing.jpeg', 'available'),
-(15, 'Ikan Bakar Manokwari', 1, 'Ikan bakar khas papua yang memiliki cita rasa segar karena memakai sambal mentah.', 55000.00, 'assets/img/ikanmanokwari.jpg', 'available'),
-(16, 'Soto Banjar', 1, 'Soto khas banjar yang memiliki rasa agak ringan dan tidak terlalu bold.', 35000.00, 'assets/img/sotobanjar.jpg', 'available'),
-(17, 'Pempek', 2, 'Makanan khas palembang yang memakai ikan giling didalam adonannya.', 25000.00, 'assets/img/pempek.jpg', 'available'),
-(18, 'Rujak Cingur', 1, 'Makanan khas Surabaya yang menggunakan irisan cingur (moncong atau mulut sapi) yang direbus.', 39000.00, 'assets/img/rujakcingur.jpg', 'available'),
-(19, 'Gudeg', 1, 'Masakan khas Yogyakarta dari nangka muda yang dimasak dengan santan, gula merah, dan rempah-rempah hingga lembut dengan rasa manis gurih.', 50000.00, 'assets/img/gudeg.jpeg', 'available'),
-(20, 'Ayam Betutu', 1, 'Ayam betutu khas Bali, dibumbui rempah dan dimasak perlahan dalam daun pisang hingga empuk.', 89000.00, 'assets/img/ayambetutu.jpeg', 'available'),
-(21, 'Es Teler', 3, 'Kombinasi potongan alpukat, kelapa muda, nangka, dan susu kental manis dalam sajian es serut yang lezat dan menyegarkan.', 20000.00, 'assets/img/es teler-3.jpeg', 'available'),
-(22, 'Teh Talua', 3, 'Minuman khas Minang yang unik, terbuat dari campuran teh panas, kuning telur, dan sedikit gula.', 18000.00, 'assets/img/tehtalua.jpeg', 'available'),
-(23, 'Es Cendol', 3, 'Minuman manis menyegarkan berisi cendol hijau dari tepung beras, santan gurih, dan gula aren cair.', 23000.00, 'assets/img/cendol.jpeg', 'available'),
-(24, 'Es Kelapa Muda', 3, 'Segarnya air kelapa muda alami dengan daging kelapa lembut.', 15000.00, 'assets/img/es kelapa.jpeg', 'available'),
-(25, 'Kopi Hitam', 3, 'Kopi hitam klasik dengan cita rasa murni dan aroma kuat, dibuat dari espresso yang diseduh dengan air panas.', 18000.00, 'assets/img/kopi americano.jpeg', 'available'),
-(26, 'Saraba', 3, 'Minuman tradisional khas Makassar berbahan dasar jahe, gula aren, dan santan.', 21000.00, 'assets/img/saraba.jpeg', 'available'),
-(27, 'Es Kuwut', 3, 'Minuman khas Bali yang menyegarkan, terbuat dari campuran air kelapa, melon, biji selasih, dan perasan jeruk nipis.', 13000.00, 'assets/img/es kuwut.jpeg', 'available'),
-(28, 'Teh Tarik', 3, 'Terbuat dari campuran teh hitam dan susu kental manis yang “ditarik” berulang kali hingga menghasilkan buih lembut di permukaannya.', 15000.00, 'assets/img/teh tarik-2.jpeg', 'available'),
-(29, 'Barongko', 4, 'Kue khas Bugis yang lembut dan manis, terbuat dari pisang yang dikukus bersama telur, santan, dan gula dalam bungkus daun pisang.', 25000.00, 'assets/img/barongko.jpeg', 'available'),
-(30, 'Jalangkote', 4, 'Camilan khas Makassar mirip pastel, berisi tumisan sayuran, bihun, dan telur rebus.', 15000.00, 'assets/img/jalangkote.jpeg', 'available'),
-(31, 'Klappertaart', 4, 'Dessert khas Manado bercita rasa Belanda, dibuat dari campuran kelapa muda, susu, mentega, dan telur.', 18000.00, 'assets/img/Klappertaart.jpeg', 'available'),
-(32, 'Pancake Durian', 4, 'Olahan lembut berisi daging durian asli dan krim manis, dibalut kulit pancake tipis.', 35000.00, 'assets/img/pancakedurian.jpeg', 'available'),
-(33, 'Kue Talam', 4, 'Kue tradisional dua lapis dengan tekstur lembut dan rasa manis gurih.', 25000.00, 'assets/img/kue talam.jpeg', 'available'),
-(34, 'Putu Mayang', 4, 'Kue cantik berbentuk untaian mi dari tepung beras, disajikan dengan kuah gula merah dan santan.', 18000.00, 'assets/img/putu mayang.jpeg', 'available'),
-(35, 'Surabi', 4, 'Kue tradisional berbahan dasar tepung beras dan santan, dimasak di atas tungku tanah liat.', 25000.00, 'assets/img/surabi.jpeg', 'available'),
-(36, 'Kue Jorong', 4, 'Kue khas Minangkabau berlapis hijau dan putih, terbuat dari campuran tepung beras, santan, dan daun pandan.', 10000.00, 'assets/img/kue jorong.jpeg', 'available');
+(1, 'Rawon Daging', 1, 'Sup daging sapi khas Jawa Timur dengan kuah hitam gurih dari kluwek.', 55000.00, 'rawon.jpg', 'available'),
+(2, 'Soto Madura', 1, 'Kuah bening gurih dengan potongan daging sapi, koya, dan sambal khas Madura.', 48000.00, 'soto.jpg', 'available'),
+(3, 'Tempe Goreng', 2, 'Tempe goreng renyah dengan bumbu ketumbar dan bawang putih pilihan.', 15000.00, 'tempe.jpg', 'available'),
+(4, 'Es Teh Manis', 3, 'Teh hitam dingin dengan aroma melati yang menenangkan.', 10000.00, 'teh.jpg', 'available'),
+(5, 'Coto Makassar', 1, 'Sup daging sapi kental dengan rempah khas Makassar dan ketupat lembut.', 52000.00, 'coto.jpg', 'available'),
+(6, 'Es Pisang Ijo', 4, 'Pisang dibalut adonan hijau lembut, disajikan dengan sirup merah dan es serut segar.', 28000.00, 'pisjo.jpg', 'available'),
+(7, 'Ayam Taliwang', 1, 'Ayam bakar khas lombok dengan bumbu pedas dan gurih.', 89000.00, 'taliwang.jpg', 'available'),
+(8, 'Nasi Goreng Kampung', 1, 'Nasi goreng dengan menggunakan bahan sederhana sehingga mengeluarkan cita rasa kampoeng.', 40000.00, 'nasgor.jpg', 'available'),
+(9, 'Tempe Mendoan', 2, 'Tempe yang dipotong tipis dan digoreng setengah matang dengan dibaluri tepung.', 25000.00, 'mendoan.png', 'available'),
+(10, 'Tahu Tempe Bacem', 2, 'Tahu dan tempe yang diolah melalui proses perendaman dengan bumbu manis dan gurih.', 30000.00, 'tahu tempe bacem.jpg', 'available'),
+(11, 'Rendang', 1, 'Hidangan daging sapi khas Sumatra Barat yang dimasak lama hingga dagingnya empuk dan bumbunya meresap.', 100000.00, 'rendang.jpg', 'available'),
+(12, 'Es Campur', 4, 'Hidangan penutup manis dan menyegarkan, terbuat dari es serut yang dicampur berbagai isian, lalu disiram sirup dan susu kental manis.', 20000.00, 'es campur.jpeg', 'available'),
+(13, 'Bebek Bumbu Hitam', 1, 'Hidangan bebek dari madura yang memakai bumbu hitam khas madura.', 90000.00, 'bebek hitam.jpeg', 'available'),
+(14, 'Sate Kambing', 1, 'Daging kambing yang ditusuk dan dibakar diatas arang sehingga memiliki rasa smoky.', 40000.00, 'Satekambing.jpeg', 'available'),
+(15, 'Ikan Bakar Manokwari', 1, 'Ikan bakar khas papua yang memiliki cita rasa segar karena memakai sambal mentah.', 55000.00, 'ikanmanokwari.jpg', 'available'),
+(16, 'Soto Banjar', 1, 'Soto khas banjar yang memiliki rasa agak ringan dan tidak terlalu bold.', 35000.00, 'sotobanjar.jpg', 'available'),
+(17, 'Pempek', 2, 'Makanan khas palembang yang memakai ikan giling didalam adonannya.', 25000.00, 'pempek.jpg', 'available'),
+(18, 'Rujak Cingur', 1, 'Makanan khas Surabaya yang menggunakan irisan cingur (moncong atau mulut sapi) yang direbus.', 39000.00, 'rujakcingur.jpg', 'available'),
+(19, 'Gudeg', 1, 'Masakan khas Yogyakarta dari nangka muda yang dimasak dengan santan, gula merah, dan rempah-rempah hingga lembut dengan rasa manis gurih.', 50000.00, 'gudeg.jpeg', 'available'),
+(20, 'Ayam Betutu', 1, 'Ayam betutu khas Bali, dibumbui rempah dan dimasak perlahan dalam daun pisang hingga empuk.', 89000.00, 'ayambetutu.jpeg', 'available'),
+(21, 'Es Teler', 3, 'Kombinasi potongan alpukat, kelapa muda, nangka, dan susu kental manis dalam sajian es serut yang lezat dan menyegarkan.', 20000.00, 'es teler-3.jpeg', 'available'),
+(22, 'Teh Talua', 3, 'Minuman khas Minang yang unik, terbuat dari campuran teh panas, kuning telur, dan sedikit gula.', 18000.00, 'tehtalua.jpeg', 'available'),
+(23, 'Es Cendol', 3, 'Minuman manis menyegarkan berisi cendol hijau dari tepung beras, santan gurih, dan gula aren cair.', 23000.00, 'cendol.jpeg', 'available'),
+(24, 'Es Kelapa Muda', 3, 'Segarnya air kelapa muda alami dengan daging kelapa lembut.', 15000.00, 'es kelapa.jpeg', 'available'),
+(25, 'Kopi Hitam', 3, 'Kopi hitam klasik dengan cita rasa murni dan aroma kuat, dibuat dari espresso yang diseduh dengan air panas.', 18000.00, 'kopi americano.jpeg', 'available'),
+(26, 'Saraba', 3, 'Minuman tradisional khas Makassar berbahan dasar jahe, gula aren, dan santan.', 21000.00, 'saraba.jpeg', 'available'),
+(27, 'Es Kuwut', 3, 'Minuman khas Bali yang menyegarkan, terbuat dari campuran air kelapa, melon, biji selasih, dan perasan jeruk nipis.', 13000.00, 'es kuwut.jpeg', 'available'),
+(28, 'Teh Tarik', 3, 'Terbuat dari campuran teh hitam dan susu kental manis yang “ditarik” berulang kali hingga menghasilkan buih lembut di permukaannya.', 15000.00, 'teh tarik-2.jpeg', 'available'),
+(29, 'Barongko', 4, 'Kue khas Bugis yang lembut dan manis, terbuat dari pisang yang dikukus bersama telur, santan, dan gula dalam bungkus daun pisang.', 25000.00, 'barongko.jpeg', 'available'),
+(30, 'Jalangkote', 4, 'Camilan khas Makassar mirip pastel, berisi tumisan sayuran, bihun, dan telur rebus.', 15000.00, 'jalangkote.jpeg', 'available'),
+(31, 'Klappertaart', 4, 'Dessert khas Manado bercita rasa Belanda, dibuat dari campuran kelapa muda, susu, mentega, dan telur.', 18000.00, 'Klappertaart.jpeg', 'available'),
+(32, 'Pancake Durian', 4, 'Olahan lembut berisi daging durian asli dan krim manis, dibalut kulit pancake tipis.', 35000.00, 'pancakedurian.jpeg', 'available'),
+(33, 'Kue Talam', 4, 'Kue tradisional dua lapis dengan tekstur lembut dan rasa manis gurih.', 25000.00, 'kue talam.jpeg', 'available'),
+(34, 'Putu Mayang', 4, 'Kue cantik berbentuk untaian mi dari tepung beras, disajikan dengan kuah gula merah dan santan.', 18000.00, 'putu mayang.jpeg', 'available'),
+(35, 'Surabi', 4, 'Kue tradisional berbahan dasar tepung beras dan santan, dimasak di atas tungku tanah liat.', 25000.00, 'surabi.jpeg', 'available'),
+(36, 'Kue Jorong', 4, 'Kue khas Minangkabau berlapis hijau dan putih, terbuat dari campuran tepung beras, santan, dan daun pandan.', 10000.00, 'kue jorong.jpeg', 'available');
 
 -- --------------------------------------------------------
 
@@ -435,6 +450,13 @@ CREATE TABLE `orders` (
   `completed_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `order_number`, `table_number`, `payment_method`, `status`, `created_at`, `completed_at`) VALUES
+(16, 'NR-20251123-002', 13, 'cash', 'Pending', '2025-11-23 13:19:10', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -446,8 +468,16 @@ CREATE TABLE `order_items` (
   `order_id` int(11) DEFAULT NULL,
   `menu_id` int(11) DEFAULT NULL,
   `quantity` int(11) DEFAULT 1,
-  `subtotal` decimal(10,2) DEFAULT NULL
+  `subtotal` decimal(10,2) DEFAULT NULL,
+  `note` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `order_items`
+--
+
+INSERT INTO `order_items` (`order_item_id`, `order_id`, `menu_id`, `quantity`, `subtotal`, `note`) VALUES
+(13, 16, 27, 1, 13000.00, 'esnya dikit aja');
 
 -- --------------------------------------------------------
 
@@ -465,6 +495,13 @@ CREATE TABLE `payments` (
   `transaction_ref` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `payments`
+--
+
+INSERT INTO `payments` (`payment_id`, `order_id`, `payment_method`, `payment_date`, `amount`, `status`, `transaction_ref`) VALUES
+(8, 16, 'cash', '2025-11-23 13:19:10', 13000.00, 'pending', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -478,6 +515,59 @@ CREATE TABLE `stock_logs` (
   `reason` varchar(100) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `stock_logs`
+--
+
+INSERT INTO `stock_logs` (`stock_id`, `inventory_id`, `change_amount`, `reason`, `created_at`) VALUES
+(1, 3, 0, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(2, 20, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(3, 19, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(4, 31, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(5, 36, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(6, 38, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(7, 18, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(8, 40, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(9, 76, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(10, 7, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(11, 12, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(12, 19, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(13, 38, -1, 'Auto-reduce for order NR-20251122-001', '2025-11-23 08:26:53'),
+(14, 1, 0, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(15, 20, -1, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(16, 19, -1, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(17, 29, -1, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(18, 24, -1, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(19, 26, -1, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(20, 38, -1, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(21, 40, -1, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(22, 44, -1, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(23, 10, -1, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(24, 14, -1, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(25, 74, -1, 'Auto-reduce for order NR-20251123-003', '2025-11-23 09:27:13'),
+(26, 5, 0, 'Auto-reduce for order NR-20251123-002', '2025-11-23 09:35:10'),
+(27, 31, -1, 'Auto-reduce for order NR-20251123-002', '2025-11-23 09:35:10'),
+(28, 19, -1, 'Auto-reduce for order NR-20251123-002', '2025-11-23 09:35:10'),
+(29, 48, -1, 'Auto-reduce for order NR-20251123-002', '2025-11-23 09:35:10'),
+(30, 38, -1, 'Auto-reduce for order NR-20251123-002', '2025-11-23 09:35:10'),
+(31, 51, -1, 'Auto-reduce for order NR-20251123-001', '2025-11-23 09:35:11'),
+(32, 10, -1, 'Auto-reduce for order NR-20251123-001', '2025-11-23 09:35:11'),
+(33, 58, -1, 'Auto-reduce for order NR-20251123-001', '2025-11-23 09:35:11'),
+(34, 76, -1, 'Auto-reduce for order NR-20251123-001', '2025-11-23 09:35:11'),
+(35, 54, -1, 'Auto-reduce for order NR-20251122-003', '2025-11-23 09:35:12'),
+(36, 81, 0, 'Auto-reduce for order NR-20251122-003', '2025-11-23 09:35:12'),
+(37, 77, -1, 'Auto-reduce for order NR-20251122-003', '2025-11-23 09:35:12'),
+(38, 52, -1, 'Auto-reduce for order NR-20251122-003', '2025-11-23 09:35:12'),
+(39, 53, -1, 'Auto-reduce for order NR-20251122-003', '2025-11-23 09:35:12'),
+(40, 58, -1, 'Auto-reduce for order NR-20251122-003', '2025-11-23 09:35:12'),
+(41, 17, -1, 'Auto-reduce for order NR-20251122-003', '2025-11-23 09:35:12'),
+(42, 76, -1, 'Auto-reduce for order NR-20251122-003', '2025-11-23 09:35:12'),
+(43, 51, -1, 'Auto-reduce for order NR-20251122-002', '2025-11-23 09:35:13'),
+(44, 68, 0, 'Auto-reduce for order NR-20251122-002', '2025-11-23 09:35:13'),
+(45, 15, -1, 'Auto-reduce for order NR-20251122-002', '2025-11-23 09:35:13'),
+(46, 40, -1, 'Auto-reduce for order NR-20251122-002', '2025-11-23 09:35:13'),
+(47, 54, 50, 'manual', '2025-11-23 14:06:10');
 
 -- --------------------------------------------------------
 
@@ -517,6 +607,14 @@ INSERT INTO `users` (`user_id`, `username`, `password`, `role`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`cart_id`),
+  ADD KEY `session_id` (`session_id`),
+  ADD KEY `menu_id` (`menu_id`);
 
 --
 -- Indeks untuk tabel `categories`
@@ -599,6 +697,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT untuk tabel `categories`
 --
 ALTER TABLE `categories`
@@ -632,31 +736,31 @@ ALTER TABLE `menu_recipes`
 -- AUTO_INCREMENT untuk tabel `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `stock_logs`
 --
 ALTER TABLE `stock_logs`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT untuk tabel `tracking`
 --
 ALTER TABLE `tracking`
-  MODIFY `tracking_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
