@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (paymentMethod === "qris") {
         // redirect ke halaman QRIS
-        window.location.href = `payment.html?method=${paymentMethod}&order=${orderNo}&total=${total}`;
+        window.location.href = `payment.html?method=${paymentMethod}&order_id=${oid}&total=${total}`;
       } else {
         // pembayaran tunai
         Swal.fire({

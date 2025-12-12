@@ -2,25 +2,32 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../_db.php';
 
-// optional filters: status, from, to
 $status = $_GET['status'] ?? null;
 $from = $_GET['from'] ?? null;
 $to = $_GET['to'] ?? null;
 
+if (is_string($status)) {
+    $s = trim(strtolower($status));
+    if ($s === '' || $s === 'undefined' || $s === 'null' || $s === 'all') {
+        $status = null;
+    }
+}
+
 $where = [];
 $params = [];
 
-if ($status) { 
-    $where[] = "o.status = :status"; 
-    $params[':status'] = $status; 
+if ($status !== null) {
+    $where[] = "LOWER(o.status) = LOWER(:status)";
+    $params[':status'] = $status;
 }
-if ($from) { 
-    $where[] = "DATE(o.created_at) >= :from"; 
-    $params[':from'] = $from; 
+
+if ($from) {
+    $where[] = "DATE(o.created_at) >= :from";
+    $params[':from'] = $from;
 }
 if ($to) {
-    $where[] = "DATE(o.created_at) <= :to";   
-    $params[':to'] = $to; 
+    $where[] = "DATE(o.created_at) <= :to";
+    $params[':to'] = $to;
 }
 
 $sql = "SELECT o.* FROM orders o";
@@ -32,7 +39,6 @@ $stmt->execute($params);
 $orders = $stmt->fetchAll();
 
 foreach ($orders as &$o) {
-
     // ambil items
     $si = $pdo->prepare("
         SELECT oi.order_item_id, oi.menu_id, oi.quantity, oi.subtotal, oi.note, m.name 

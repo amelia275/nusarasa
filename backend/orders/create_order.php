@@ -56,6 +56,12 @@ try {
         'pm' => $payment_method
     ]);
     $order_id = $pdo->lastInsertId();
+    // tracking awal (pending)
+    $pdo->prepare("
+        INSERT INTO tracking (order_id, status, note, updated_at)
+        VALUES (:oid, 'pending', NULL, NOW())
+    ")->execute(['oid' => $order_id]);
+
 
     // insert order_items
     $oi = $pdo->prepare("
@@ -73,16 +79,20 @@ try {
         ]);
     }
 
-    // insert payment (pending)
+    // jika QRIS → langsung lunas
+    $paymentStatus = ($payment_method === 'qris') ? 'success' : 'pending';
+
     $p = $pdo->prepare("
         INSERT INTO payments (order_id, payment_method, amount, status, payment_date) 
-        VALUES (:oid, :pm, :amt, 'Pending', NOW())
+        VALUES (:oid, :pm, :amt, :st, NOW())
     ");
     $p->execute([
         'oid' => $order_id,
-        'pm' => $payment_method,
-        'amt' => $total
+        'pm'  => $payment_method,
+        'amt' => $total,
+        'st'  => $paymentStatus
     ]);
+
 
     // clear cart
     $del = $pdo->prepare("DELETE FROM carts WHERE session_id = :sid");

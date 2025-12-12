@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const method = params.get("method");
   const total = params.get("total") || 0;
-  const orderId = params.get("order_id"); // ID dari backend
+  const orderId = params.get("order_id");
 
   // Tampilkan section sesuai metode
   if (method === "qris") {
@@ -47,16 +47,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = await res.json();
 
     if (data.ok) {
-      Swal.fire({
-        title: "Pembayaran Berhasil!",
-        text: "Terima kasih, pesanan Anda sedang diproses.",
-        icon: "success",
-        confirmButtonColor: "#b83b24",
-        confirmButtonText: "Kembali ke Home",
-      }).then(() => {
-        window.location.href = "index.html";
-      });
-    } else {
+    Swal.fire({
+      title: "Pembayaran Berhasil!",
+      text: "Terima kasih, pesanan Anda sedang diproses.",
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonText: "Lihat Struk",
+      cancelButtonText: "Kembali ke Home",
+      confirmButtonColor: "#b83b24",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "payment_receipt.php?id=" + data.payment_id;
+      } else {
+        window.location.href = "/nusarasa/public/customer/pages/index.html";
+      }
+    });
+  } else {
       Swal.fire({
         title: "Gagal!",
         text: data.msg || "Terjadi kesalahan saat memproses pembayaran.",

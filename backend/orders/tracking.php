@@ -14,7 +14,8 @@ if ($method === 'GET') {
 if ($method === 'POST') {
     $body = json_decode(file_get_contents('php://input'), true);
     $order_id = intval($body['order_id'] ?? 0);
-    $status = in_array($body['status'] ?? '', ['in_kitchen','out_for_delivery','delivered']) ? $body['status'] : 'in_kitchen';
+    $allowed = ['pending','in_kitchen','out_for_delivery'];
+    $status = in_array($body['status'] ?? '', $allowed) ? $body['status'] : 'pending';
     $note = trim($body['note'] ?? '');
 
     if (!$order_id) { http_response_code(422); echo json_encode(['err'=>'No order id']); exit; }
@@ -24,11 +25,11 @@ if ($method === 'POST') {
 
     // update orders.status mapping (kitchen statuses map to orders.status)
     $map = [
+      'pending' => 'Pending',
       'in_kitchen' => 'Diproses',
-      'out_for_delivery' => 'Diproses',
-      'delivered' => 'Selesai'
+      'out_for_delivery' => 'Selesai'
     ];
-    $newOrderStatus = $map[$status] ?? 'Diproses';
+    $newOrderStatus = $map[$status] ?? 'Pending';
     $pdo->prepare("UPDATE orders SET status = :st WHERE order_id = :oid")->execute([':st'=>$newOrderStatus, ':oid'=>$order_id]);
 
     echo json_encode(['success'=>true]);

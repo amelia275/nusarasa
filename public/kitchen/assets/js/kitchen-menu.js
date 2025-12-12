@@ -1,3 +1,14 @@
+// ====== INSTANCE MODAL BOOTSTRAP ======
+let modalAdd, modalEdit;
+
+document.addEventListener("DOMContentLoaded", () => {
+  modalAdd = new bootstrap.Modal(document.getElementById("modalAddMenu"));
+  modalEdit = new bootstrap.Modal(document.getElementById("modalEditMenu"));
+
+  loadCategories();
+  loadMenu();
+});
+
 // ====== LOAD CATEGORIES ======
 async function loadCategories() {
   try {
@@ -65,13 +76,14 @@ async function loadMenu() {
   }
 }
 
-// ====== OPEN + CLOSE MODAL TAMBAH ======
+// ====== OPEN ADD MENU ======
 document.getElementById("btnAddMenu").onclick = () => {
-  document.getElementById("modalAddMenu").classList.add("show");
+  modalAdd.show();
 };
 
+// ====== CLOSE ADD MENU ======
 function closeAddMenu() {
-  document.getElementById("modalAddMenu").classList.remove("show");
+  modalAdd.hide();
   document.getElementById("formAddMenu").reset();
 }
 
@@ -97,7 +109,7 @@ document.getElementById("formAddMenu").addEventListener("submit", async (e) => {
   }
 });
 
-// ====== OPEN EDIT MODAL ======
+// ====== OPEN EDIT MENU ======
 async function openEditMenu(id) {
   try {
     const res = await fetch("/nusarasa/backend/menu/get_menu.php?id=" + id);
@@ -114,17 +126,18 @@ async function openEditMenu(id) {
 
     setTimeout(() => {
       document.getElementById("editCategory").value = data.category_id;
-    }, 200);
+    }, 150);
 
-    document.getElementById("modalEditMenu").classList.add("show");
+    modalEdit.show();
 
   } catch (err) {
     console.error("Gagal load detail menu:", err);
   }
 }
 
+// ====== CLOSE EDIT MENU ======
 function closeEditMenu() {
-  document.getElementById("modalEditMenu").classList.remove("show");
+  modalEdit.hide();
 }
 
 // ====== SUBMIT EDIT MENU ======
@@ -170,9 +183,3 @@ async function deleteMenu(id) {
     alert("Gagal menghapus menu.");
   }
 }
-
-// ====== ON PAGE LOAD ======
-document.addEventListener("DOMContentLoaded", () => {
-  loadCategories();
-  loadMenu();
-});
